@@ -3,45 +3,30 @@ using System.Collections;
 
 public class PlayerMove : MonoBehaviour {
 
-    private int direction;
-    int MOVE_LEFT = -1;
-    int MOVE_RIGHT = 1;
-
-
-	// Use this for initialization
-	void Awake () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-        if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
-        {
-            if (Input.GetKey(KeyCode.A))
-            {
-                direction = MOVE_LEFT;
-                PlayerStats._spriteRenderer.flipX = true;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                direction = MOVE_RIGHT;
-                PlayerStats._spriteRenderer.flipX = false;
-            }
-        }
-        else
-        {
-            direction = 0;
-        }
-	}
+    [SerializeField]
+    private float moveForce = 350f;
 
     void FixedUpdate()
     {
-      PlayerRun(direction);
+        float h = Input.GetAxis("Horizontal");
+        if(h > 0 && PlayerStats._spriteRenderer.flipX)
+        {
+            PlayerStats._spriteRenderer.flipX = false;
+        }
+        if (h < 0 && !PlayerStats._spriteRenderer.flipX)
+        {
+            PlayerStats._spriteRenderer.flipX = true;
+        }
+
+        PlayerRun(h);
     }
 
-    private void PlayerRun(int direction)
+    private void PlayerRun(float direction)
     {
-        Vector2 force = new Vector2 (direction * PlayerStats._playerStats.moveSpeed * Time.deltaTime, PlayerStats._rigidbody2D.velocity.y);
-        PlayerStats._rigidbody2D.velocity  =  force;
+        if (direction * PlayerStats._rigidbody2D.velocity.x < PlayerStats._playerStats.maxMoveSpeed)
+            PlayerStats._rigidbody2D.AddForce(Vector2.right * direction * moveForce);
+
+        if (Mathf.Abs(PlayerStats._rigidbody2D.velocity.x) > PlayerStats._playerStats.maxMoveSpeed)
+            PlayerStats._rigidbody2D.velocity = new Vector2(Mathf.Sign(PlayerStats._rigidbody2D.velocity.x) * PlayerStats._playerStats.maxMoveSpeed, PlayerStats._rigidbody2D.velocity.y);
     }
 }

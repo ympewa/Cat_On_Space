@@ -7,9 +7,10 @@ public class PlayerStats : MonoBehaviour {
     public static SpriteRenderer _spriteRenderer;
     public static PlayerStats _playerStats;
 
-    public float moveSpeed = 120; //Скорость передвижения.
+    public float maxMoveSpeed = 5; //Скорость передвижения.
 
     public float jumpPower = 360; //Сила прыжка.
+    public float doubleJumpPower = 180;
 
     void Start()
     {

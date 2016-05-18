@@ -6,11 +6,11 @@ public class PlayerJump : MonoBehaviour {
     public LayerMask ground;
     private Transform groundChecker;
 
-    public bool inAir = false;
-    public bool canJump = true;
-    public bool jump = false;
-    public bool canDounbleJump = false;
-    public bool doubleJump = false;
+    private bool inAir = false;
+    private bool canJump = true;
+    private bool jump = false;
+    private bool canDounbleJump = false;
+    private bool doubleJump = false;
 
     public float jumpDelay = 1f;
     private bool onGround;
@@ -22,7 +22,7 @@ public class PlayerJump : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        onGround = Physics2D.OverlapCircle(groundChecker.position, 0.52f, ground);
+        onGround = Physics2D.Linecast(this.transform.position, groundChecker.position, ground);
 
         if(!canDounbleJump && onGround)
         {
@@ -58,14 +58,13 @@ public class PlayerJump : MonoBehaviour {
 
     public void Jump()
     {  
-        var force = new Vector2(PlayerStats._rigidbody2D.velocity.x, PlayerStats._playerStats.jumpPower);
-        PlayerStats._rigidbody2D.velocity = new Vector2(PlayerStats._rigidbody2D.velocity.x, 0);
+        var force = new Vector2(0, PlayerStats._playerStats.jumpPower);
         PlayerStats._rigidbody2D.AddForce(force);
     }
 
     public void DoubleJump()
     {
-        var force = new Vector2(PlayerStats._rigidbody2D.velocity.x, PlayerStats._playerStats.jumpPower);
+        var force = new Vector2(0, PlayerStats._playerStats.doubleJumpPower);
         PlayerStats._rigidbody2D.velocity = new Vector2(PlayerStats._rigidbody2D.velocity.x, 0);
         PlayerStats._rigidbody2D.AddForce(force);
     }
