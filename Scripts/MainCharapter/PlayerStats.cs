@@ -6,8 +6,9 @@ public class PlayerStats : MonoBehaviour {
     public static Rigidbody2D _rigidbody2D;
     public static SpriteRenderer _spriteRenderer;
     public static PlayerStats _playerStats;
+    public float velosity;
 
-    public float maxMoveSpeed = 5; //Скорость передвижения.
+    public float maxSpeed = 5; //Скорость передвижения.
 
     public float jumpPower = 360; //Сила прыжка.
     public float doubleJumpPower = 180;
@@ -19,5 +20,9 @@ public class PlayerStats : MonoBehaviour {
         _playerStats = this.GetComponent<PlayerStats>();
     }
 
+    void Update()
+    {
+        velosity = _rigidbody2D.velocity.x;
+    }
     
 }

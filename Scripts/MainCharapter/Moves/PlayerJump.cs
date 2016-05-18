@@ -13,6 +13,7 @@ public class PlayerJump : MonoBehaviour {
     private bool doubleJump = false;
 
     public float jumpDelay = 1f;
+    [SerializeField]
     private bool onGround;
     	
     void Awake()
